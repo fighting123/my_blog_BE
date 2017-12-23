@@ -5,6 +5,7 @@ const sha1 = require('sha1')
 
 const UserModel = require('../models/users')
 const checkNotLogin = require('../middlewares/check').checkNotLogin
+const expTime = require('../config/default').session.maxAge  // 获取过期时间
 
 // POST /signin 用户登录
 router.post('/', checkNotLogin, function (req, res, next) {
@@ -27,7 +28,7 @@ router.post('/', checkNotLogin, function (req, res, next) {
       delete user.password
       // 用户信息写入session
       req.session.user = user
-      res.send({status: 'success', message: '登录成功', info: user._id, expTime: 1})
+      res.send({status: 'success', message: '登录成功', info: user._id, expTime: expTime})
     })
 })
 
