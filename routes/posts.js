@@ -56,7 +56,7 @@ router.get('/:postId', function (req, res, next) {
       const post = result[0]
       const comments = result[1]
       if (!post) {
-        res.send({status: 'error', message: '该文章不存在'})
+        // res.send({status: 'error', message: '该文章不存在'})
         throw new Error('该文章不存在')
       }
       res.send({status: 'success', post: post, comments: comments})
@@ -75,9 +75,9 @@ router.get('/:postId/edit', checkLogin, function (req, res, next) {
         throw new Error('文章不存在')
       } else if (post.author._id.toString() !== author.toString()) {
         res.send({status: 'error', message: '没有权限'})
-        throw new Error('没有权限')
+        // throw new Error('没有权限')
       } else {
-        res.send({status: 'error', post: post})
+        res.send({status: 'success', post: post})
       }
     })
     .catch(next)
@@ -93,11 +93,11 @@ router.post('/:postId/edit', checkLogin, function (req, res, next) {
   postsModel.getRawPostById(postId)
     .then(function (post) {
       if (!post) {
-        res.send({status: 'error', message: '文章不存在'})
+        res.send({status: 'success', message: '文章不存在'})
         throw new Error('文章不存在')
       }
       if (post.author._id.toString() !== author.toString()) {
-        res.send({status: 'error', message: '没有权限'})
+        res.send({status: 'success', message: '没有权限'})
         throw new Error('没有权限')
       }
       postsModel.updatePostById(postId, {title: title, content:content})
@@ -120,14 +120,14 @@ router.get('/:postId/remove', checkLogin, function (req, res, next) {
   postsModel.getRawPostById(postId)
     .then(function (post) {
       if (!post) {
-        res.send({status: 'success', message: '文章不存在'})
+        res.send({status: 'error', message: '文章不存在'})
         throw new Error('文章不存在')
       }
       if (post.author._id.toString() !== author.toString()) {
-        res.send({status: 'success', message: '没有权限'})
+        res.send({status: 'error', message: '没有权限'})
         throw new Error('没有权限')
       }
-      postsModel.deletePostById(postId)
+      postsModel.deletePostById(postId, author)
         .then(function () {
           req.flash('success', '删除文章成功')
           res.send({status: 'success', message: '删除文章成功'})

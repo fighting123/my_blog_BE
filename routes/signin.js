@@ -28,7 +28,7 @@ router.post('/', checkNotLogin, function (req, res, next) {
       delete user.password
       // 用户信息写入session
       req.session.user = user
-      res.send({status: 'success', message: '登录成功', info: user._id, expTime: expTime})
+      res.send({status: 'success', message: '登录成功', imgUrl: user.avatar, info: user._id, expTime: expTime})
     })
 })
 
