@@ -51,10 +51,11 @@ router.post('/', checkNotLogin, function (req, res, next) {
         var imageNewPathName = path.join(path.resolve(__dirname, '..'), '/public/image/', files[0])
         fs.rename(imagePathName, imageNewPathName, function (err) {
           if (err) {
-            return;
+            res.send({status: 'error', message: '注册失败'})
+          } else {
+            res.send({status: 'success', message: '注册成功'})
           }
         })
-        res.send({status: 'success', message: '注册成功'})
       })
       .catch(function (e) {
         // 注册失败，异步删除上传的头像

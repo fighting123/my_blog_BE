@@ -56,7 +56,7 @@ router.get('/:postId', function (req, res, next) {
       const post = result[0]
       const comments = result[1]
       if (!post) {
-        // res.send({status: 'error', message: '该文章不存在'})
+        res.send({status: 'error', message: '该文章不存在'})
         throw new Error('该文章不存在')
       }
       res.send({status: 'success', post: post, comments: comments})

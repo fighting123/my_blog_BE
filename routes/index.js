@@ -11,11 +11,11 @@ module.exports = function (app) {
     // 读取图片
     fs.readFile(imagePathName, 'binary', function (err, data) {
       if (err) {
-        res.writeHead(500,{"Content-Type":"text/plain"});
-        res.write(error+"\n");
+        // res.writeHead(500,{"Content-Type":"text/plain"});
+        // res.write(error+"\n");
         res.end();
       } else {
-        res.writeHead(200,{"Content-Type":"image/png"});
+        // res.writeHead(200,{"Content-Type":"image/png"});
         // 不能用send，否则会浏览器报错：504 (Gateway Timeout)
         // res.send(data, 'binary');
         res.end(data, "binary");
