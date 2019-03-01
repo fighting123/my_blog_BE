@@ -57,9 +57,9 @@ router.get('/:postId', function (req, res, next) {
       const comments = result[1]
       if (!post) {
         res.send({status: 'error', message: '该文章不存在'})
-        throw new Error('该文章不存在')
+      } else {
+        res.send({status: 'success', post: post, comments: comments})
       }
-      res.send({status: 'success', post: post, comments: comments})
     })
     .catch(next)
 })
@@ -75,7 +75,7 @@ router.get('/:postId/edit', checkLogin, function (req, res, next) {
         throw new Error('文章不存在')
       } else if (post.author._id.toString() !== author.toString()) {
         res.send({status: 'error', message: '没有权限'})
-        // throw new Error('没有权限')
+        throw new Error('没有权限')
       } else {
         res.send({status: 'success', post: post})
       }
